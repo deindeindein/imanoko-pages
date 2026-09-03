@@ -4,29 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>プライバシーポリシー | いまのこ</title>
-  <style>
-    :root { color-scheme: light dark; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; line-height: 1.75; }
-    main { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: 32px 20px 56px; }
-    h1, h2, h3 { line-height: 1.4; }
-    h2 { margin-top: 2em; }
-    h3 { margin-top: 1.6em; }
-    a { color: #d95757; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main>
-    <p><a href="index.html">いまのこ</a></p>
+    <p class="backlink"><a href="index.html">いまのこ</a></p>
     <h1>プライバシーポリシー</h1>
     <p><strong>いまのこ</strong>（以下「本アプリ」）のプライバシーポリシーです。</p>
-    <p>最終更新日: 2026年8月31日</p>
+    <p class="meta">最終更新日: 2026年8月31日</p>
 
     <h2>要点</h2>
-    <p><strong>開発者は、利用者の情報を収集しません。</strong></p>
-    <p>撮影した動画、お子さまの名前や誕生日、アプリの設定は、<strong>すべて iPhone の中だけに保存されます。</strong> 開発者はそれらを見ることができません。</p>
-    <p>本アプリには、アカウント登録もログインもありません。広告も、アクセス解析も組み込んでいません。場所と気温の表示を利用する場合に限り、地名と気温を取得するため Apple のサービスへ問い合わせます。</p>
+    <div class="callout">
+      <p><strong>開発者は、利用者の情報を収集しません。</strong></p>
+      <p>撮影した動画、お子さまの名前や誕生日、アプリの設定は、<strong>すべて iPhone の中だけに保存されます。</strong> 開発者はそれらを見ることができません。</p>
+      <p>本アプリには、アカウント登録もログインもありません。広告も、アクセス解析も組み込んでいません。場所と気温の表示を利用する場合に限り、地名と気温を取得するため Apple のサービスへ問い合わせます。</p>
+    </div>
 
     <h2>本アプリが端末内で扱うもの</h2>
     <h3>動画と音声</h3>
@@ -42,16 +34,18 @@
     <p>地名と気温の取得のため、位置情報を Apple の位置情報サービスおよび Apple Weather へ問い合わせます。座標は端末に保存せず、開発者も受け取りません。取得した地名と気温は、利用者が選んだ場合だけ動画へ焼き込まれます。</p>
 
     <h2>端末の機能の使用について</h2>
-    <table>
-      <thead><tr><th>機能</th><th>用途</th></tr></thead>
-      <tbody>
-        <tr><td><strong>カメラ</strong></td><td>動画を撮影するため</td></tr>
-        <tr><td><strong>マイク</strong></td><td>動画に音を残すため</td></tr>
-        <tr><td><strong>写真</strong></td><td>まとめた動画を写真アプリへ<strong>保存する</strong>ため</td></tr>
-        <tr><td><strong>通知</strong></td><td>撮影のリマインドを表示するため</td></tr>
-        <tr><td><strong>位置情報</strong></td><td>利用者が選んだときに、動画へ入れる地名と気温を取得するため</td></tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>機能</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td><strong>カメラ</strong></td><td>動画を撮影するため</td></tr>
+          <tr><td><strong>マイク</strong></td><td>動画に音を残すため</td></tr>
+          <tr><td><strong>写真</strong></td><td>まとめた動画を写真アプリへ<strong>保存する</strong>ため</td></tr>
+          <tr><td><strong>通知</strong></td><td>撮影のリマインドを表示するため</td></tr>
+          <tr><td><strong>位置情報</strong></td><td>利用者が選んだときに、動画へ入れる地名と気温を取得するため</td></tr>
+        </tbody>
+      </table>
+    </div>
     <p><strong>写真については、保存する権限のみを使用します。</strong> 本アプリが写真アプリの中身を読み取ることはありません。</p>
     <p>いずれの権限も、許可しなければその機能が使えなくなるだけで、本アプリの他の部分は引き続きお使いいただけます。</p>
 

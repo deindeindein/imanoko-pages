@@ -1,0 +1,369 @@
+/* いまのこ 公開ページ共通スタイル
+   デザイン言語の定義は DESIGN.md を参照。値はすべてトークン経由で使うこと。 */
+
+:root {
+  color-scheme: light dark;
+
+  --color-bg: #FBF7F3;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F4EDE6;
+  --color-text: #2E2723;
+  --color-text-muted: #6F645C;
+  --color-text-subtle: #9A8E85;
+  --color-border: #E7DCD2;
+  --color-border-strong: #D5C7BA;
+  --color-accent: #D95757;
+  --color-accent-hover: #B94343;
+  --color-accent-soft: #FBEDEA;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+
+  --text-h1: 28px;
+  --text-h2: 20px;
+  --text-h3: 17px;
+  --text-lead: 17px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 13px;
+
+  --leading-tight: 1.45;
+  --leading-heading: 1.5;
+  --leading-body: 1.9;
+  --tracking-ja: 0.02em;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-14: 56px;
+  --space-18: 72px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --shadow-hairline: 0 0 0 1px var(--color-border);
+  --shadow-soft: 0 1px 2px rgba(46, 39, 35, 0.04);
+  --shadow-raised: 0 2px 8px rgba(46, 39, 35, 0.06);
+
+  --measure: 42rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #17130F;
+    --color-surface: #211B16;
+    --color-surface-muted: #2A231D;
+    --color-text: #F2EAE2;
+    --color-text-muted: #B5A89D;
+    --color-text-subtle: #8A7D72;
+    --color-border: #332B24;
+    --color-border-strong: #463A31;
+    --color-accent: #F08A8A;
+    --color-accent-hover: #F7A5A5;
+    --color-accent-soft: #2E1F1D;
+    --shadow-soft: none;
+    --shadow-raised: none;
+  }
+}
+
+/* --- base --- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-ja);
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-5) var(--space-18);
+}
+
+@media (min-width: 640px) {
+  main {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+/* --- typography --- */
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  margin: 0 0 var(--space-5);
+  font-size: var(--text-h1);
+  line-height: var(--leading-tight);
+}
+
+h2 {
+  margin: var(--space-14) 0 var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-h2);
+  line-height: var(--leading-heading);
+}
+
+h3 {
+  margin: var(--space-8) 0 var(--space-3);
+  font-size: var(--text-h3);
+  line-height: 1.6;
+}
+
+p {
+  margin: 0 0 var(--space-4);
+}
+
+strong {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* h1 直後の導入文 */
+h1 + p {
+  font-size: var(--text-lead);
+  color: var(--color-text-muted);
+}
+
+/* 最終更新日など */
+p.meta {
+  font-size: var(--text-small);
+  color: var(--color-text-subtle);
+}
+
+/* --- link --- */
+
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+  text-decoration-thickness: 2px;
+}
+
+a:focus-visible,
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- back link --- */
+
+.backlink {
+  margin: 0 0 var(--space-8);
+  font-size: var(--text-small);
+}
+
+.backlink a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.backlink a::before {
+  content: "←";
+  margin-right: var(--space-2);
+  color: var(--color-text-subtle);
+}
+
+.backlink a:hover {
+  color: var(--color-accent);
+}
+
+.backlink a:hover::before {
+  color: var(--color-accent);
+}
+
+/* --- list --- */
+
+ul {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+  list-style: none;
+}
+
+ul li {
+  position: relative;
+  margin-bottom: var(--space-2);
+}
+
+ul li::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--space-5) * -1);
+  top: calc(var(--leading-body) * 0.5em - 2px);
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+}
+
+/* --- callout --- */
+
+.callout {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-5);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.callout ul li::before {
+  background: var(--color-accent);
+}
+
+/* --- table --- */
+
+.table-wrap {
+  margin: 0 0 var(--space-6);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+  font-size: var(--text-small);
+}
+
+th,
+td {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.8;
+}
+
+th {
+  background: var(--color-surface-muted);
+  font-weight: 700;
+}
+
+thead th {
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+tbody th {
+  width: 32%;
+  border-right: 1px solid var(--color-border);
+}
+
+tr:last-child th,
+tr:last-child td {
+  border-bottom: 0;
+}
+
+/* 見出し列を持つ定義テーブル（狭い画面では縦積み） */
+@media (max-width: 480px) {
+  .table-kv,
+  .table-kv tbody,
+  .table-kv tr,
+  .table-kv th,
+  .table-kv td {
+    display: block;
+    width: auto;
+  }
+
+  .table-kv th {
+    border-right: 0;
+    border-bottom: 0;
+    font-size: var(--text-caption);
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .table-kv td {
+    padding-top: var(--space-2);
+  }
+
+  .table-kv tr + tr th {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+/* --- nav cards --- */
+
+.nav-cards {
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.nav-cards li {
+  margin: 0;
+}
+
+.nav-cards li::before {
+  content: none;
+}
+
+.nav-cards a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.nav-cards a::after {
+  content: "→";
+  color: var(--color-text-subtle);
+}
+
+.nav-cards a:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.nav-cards a:hover::after {
+  color: var(--color-accent);
+}
