@@ -1,0 +1,19 @@
+{
+  "name": "imanoko-social",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "いまのこ の Instagram / Threads 予約投稿オートメーション",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "post": "node scripts/post.mjs",
+    "post:dry": "node scripts/post.mjs --dry-run",
+    "validate": "node scripts/validate.mjs",
+    "new": "node scripts/new-post.mjs",
+    "check": "node scripts/check-setup.mjs",
+    "token:exchange": "node scripts/refresh-tokens.mjs --exchange",
+    "token:refresh": "node scripts/refresh-tokens.mjs"
+  }
+}

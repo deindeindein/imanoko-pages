@@ -1,0 +1,32 @@
+name: 投稿キューの検証
+
+on:
+  push:
+    branches: ['**']
+    paths:
+      - 'content/posts/**'
+      - 'media/**'
+      - 'scripts/**'
+      - '.github/workflows/social-*.yml'
+  pull_request:
+    paths:
+      - 'content/posts/**'
+      - 'media/**'
+      - 'scripts/**'
+      - '.github/workflows/social-*.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 検証
+        run: node scripts/validate.mjs
+      - name: 投稿予定を表示（API は叩かない）
+        run: node scripts/post.mjs --dry-run --force

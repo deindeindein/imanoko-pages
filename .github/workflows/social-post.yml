@@ -1,0 +1,90 @@
+name: SNS 自動投稿
+
+on:
+  schedule:
+    # 毎時 00 分（UTC）に実行する。JST でも毎時 00 分。
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '実際には投稿せず、対象だけを表示する'
+        type: boolean
+        default: false
+      file:
+        description: '特定のファイルだけを今すぐ投稿する（例: content/posts/2026-09-10-hello.md）'
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+# 前の実行が投稿中に次が始まると二重投稿になりうるため、直列に流す。
+concurrency:
+  group: social-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 未来の投稿に書き間違いがあっても、今日の投稿は止めない。
+      # 個々の投稿は post.mjs が投稿直前に検証する。
+      - name: 投稿キューを検証
+        continue-on-error: true
+        run: node scripts/validate.mjs
+
+      - name: 投稿
+        id: post
+        continue-on-error: true
+        env:
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
+          IG_API_VERSION: ${{ vars.IG_API_VERSION }}
+          IG_API_BASE: ${{ vars.IG_API_BASE }}
+          THREADS_API_VERSION: ${{ vars.THREADS_API_VERSION }}
+          THREADS_API_BASE: ${{ vars.THREADS_API_BASE }}
+          MAX_POSTS_PER_RUN: ${{ vars.MAX_POSTS_PER_RUN }}
+          # シェルへの直接展開を避けるため、入力は環境変数として渡す。
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+          INPUT_FILE: ${{ inputs.file }}
+        run: |
+          set -- 
+          if [ "$INPUT_DRY_RUN" = "true" ]; then set -- "$@" --dry-run; fi
+          if [ -n "$INPUT_FILE" ]; then set -- "$@" --file "$INPUT_FILE" --force; fi
+          node scripts/post.mjs "$@"
+
+      # 投稿が一部失敗しても、成功分の投稿 ID は必ず記録しておく。
+      - name: 投稿状態をコミット
+        if: always() && inputs.dry_run != true
+        run: |
+          if [ -z "$(git status --porcelain content/posts)" ]; then
+            echo "更新はありません。"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/posts
+          git commit -m "chore(social): 投稿状態を更新"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "push に失敗しました。$((2 ** i)) 秒後に再試行します。"
+            sleep $((2 ** i))
+          done
+          echo "push に繰り返し失敗しました。"
+          exit 1
+
+      - name: 投稿の失敗を反映
+        if: steps.post.outcome == 'failure'
+        run: |
+          echo "投稿処理でエラーが発生しました。上のログとリポジトリの前付け（last_error）を確認してください。"
+          exit 1
