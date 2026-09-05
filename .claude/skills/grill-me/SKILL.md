@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Interrogate the user one question at a time until the goal, scope, and design decisions of a task are fully pinned down, then freeze the result into a spec. For vague or half-formed requests ("make it nicer", "add a contact form", "build X") where implementing now would mean guessing. Use ONLY when the user explicitly asks for it (/grill-me, "grill me", "詰めて", "質問して"); never start grilling on your own initiative.
+description: Interrogate the user one question at a time until the goal, scope, and design decisions of a task are fully pinned down, then freeze the result into a spec. For vague or half-formed requests ("make it nicer", "add a contact form", "build X") where implementing now would mean guessing. Use ONLY when the user explicitly asks for it (/grill-me, "grill me", "詰めて", "質問して"); never start grilling on your own initiative. For non-engineering work (企画, 提案, 資料作成, 事業構築), use grill-me-biz instead.
 ---
 
 # grill-me
