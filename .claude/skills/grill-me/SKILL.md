@@ -34,6 +34,18 @@ reading the repo.
    the work, stop asking and move to Freeze. Questions with no consequence are
    noise.
 
+9. **The user's counter-proposal outranks your recommendation.** The
+   recommendation is a starting point, not a position to defend. When the user
+   pushes back *with a reason*, that reason almost always carries knowledge you
+   do not have — the domain, the organisation, the people, their own experience
+   of being on the receiving end. Adopt it in one line（「訂正します」）without
+   hedging and without re-arguing the original. Then earn your keep: sharpen the
+   counter-proposal, name what it changes downstream, and **re-open any earlier
+   decision it invalidates** — a good counter-proposal often dissolves a problem
+   you were still working around. Note the difference from「任せる」: a
+   counter-proposal is a *better answer* and you take it; 「任せる」is a
+   *non-answer* and you drill into it.
+
 ## Procedure
 
 ### Phase 0 — Orient (silent)
@@ -103,3 +115,4 @@ let them start a fresh session with the frozen spec as the prompt.
   say so and just do it.
 - Drifting into implementation mid-grill.
 - Ending without a written, confirmed spec.
+- Defending a recommendation after the user has given a reason it is wrong.

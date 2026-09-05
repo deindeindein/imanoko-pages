@@ -34,6 +34,18 @@ Those two are always your first branch.
    人は誰か — these are the questions people skip and then get blocked by. Ask
    them plainly, once, without hedging.
 
+10. **The user's counter-proposal outranks your recommendation.** The
+    recommendation is a starting point, not a position to defend. When the user
+    pushes back *with a reason*, that reason almost always carries knowledge you
+    do not have — the domain, the organisation, the people, their own experience
+    of being on the receiving end. Adopt it in one line（「訂正します」）without
+    hedging and without re-arguing the original. Then earn your keep: sharpen the
+    counter-proposal, name what it changes downstream, and **re-open any earlier
+    decision it invalidates** — a good counter-proposal often dissolves a problem
+    you were still working around. Note the difference from「任せる」: a
+    counter-proposal is a *better answer* and you take it; 「任せる」is a
+    *non-answer* and you drill into it.
+
 ## Procedure
 
 ### Phase 0 — Orient (silent)
@@ -117,3 +129,4 @@ document than one cluttered with the interview.
 - Grilling a two-line email. Say it does not need this and just write it.
 - Starting to draft mid-grill.
 - Ending without a written, confirmed brief.
+- Defending a recommendation after the user has given a reason it is wrong.
