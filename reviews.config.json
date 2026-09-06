@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "いまのこ",
+      "appId": "REPLACE_WITH_APP_STORE_ID",
+      "bundleId": "",
+      "countries": ["jp", "us"]
+    }
+  ],
+  "pages": 3,
+  "slack": {
+    "maxNotify": 20,
+    "onlyRatingAtMost": 5
+  }
+}
