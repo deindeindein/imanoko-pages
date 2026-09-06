@@ -1,96 +1,130 @@
 ---
 name: grill-me
-description: Interrogate the user one question at a time until the goal, scope, and design decisions of a task are fully pinned down, then freeze the result into a spec. For vague or half-formed requests ("make it nicer", "add a contact form", "build X") where implementing now would mean guessing. Use ONLY when the user explicitly asks for it (/grill-me, "grill me", "詰めて", "質問して"); never start grilling on your own initiative. For non-engineering work (企画, 提案, 資料作成, 事業構築), use grill-me-biz instead.
+description: >-
+  Run a one-question-at-a-time requirements interview and confirm an
+  implementation spec for a code change. Use only when the user invokes
+  /grill-me or explicitly requests this interview before implementation.
+  A vague build request alone is not a trigger. For a non-code brief,
+  use grill-me-biz.
 ---
 
 # grill-me
 
-Force the ambiguity out of a request **before** any code is written. You ask, the
-user answers, and you keep going until there is no unresolved decision left that
-would change what gets built. Then you write the agreed spec down and stop.
+Force the ambiguity out of a request before any code is written. You ask, the
+user answers, and you continue until the next stage has enough decided to
+proceed. Then you put the agreed spec up for confirmation.
 
-The user is the source of truth about intent. You are the source of truth about
-what the codebase already says. Never ask the user something you can answer by
-reading the repo.
+The user decides intent and priorities. You establish what the codebase actually
+says — but code describes the *current implementation*, not necessarily the
+intended behaviour.
 
 ## Rules
 
-1. **One question per message.** Never batch. A wall of five questions gets one
-   lazy answer; a single question gets a real one.
-2. **Every question ships with a recommendation.** State your recommended answer
-   and a one-line reason, plus the realistic alternatives. The user should be
-   able to reply "はい" / "yes" / "2" and move on.
-3. **Depth-first, not breadth-first.** Only ask a question whose prerequisites
-   are already settled. Treat the design as a decision tree and finish a branch
-   before starting the next one.
-4. **Read before you ask.** Inspect the relevant files first. Questions about
-   facts already in the repo waste the user's turn and lose their trust.
-5. **"Not decided yet" / "you decide" is not an answer — it is a new branch.**
-   Drill into it: offer a default, explain the trade-off, get a decision.
-6. **No implementation while grilling.** No edits, no writes, no "I went ahead
-   and started". Reading and searching only.
-7. **Answer in the user's language.** Match whatever language they wrote in.
-8. **Stop when it stops mattering.** The moment no remaining unknown would change
-   the work, stop asking and move to Freeze. Questions with no consequence are
-   noise.
+1. **One decision or one missing fact per turn.** A single question mark is not
+   the test:「誰が使い、いつまでに、いくらで？」is three questions.
 
-9. **The user's counter-proposal outranks your recommendation.** The
-   recommendation is a starting point, not a position to defend. When the user
-   pushes back *with a reason*, that reason almost always carries knowledge you
-   do not have — the domain, the organisation, the people, their own experience
-   of being on the receiving end. Adopt it in one line（「訂正します」）without
-   hedging and without re-arguing the original. Then earn your keep: sharpen the
-   counter-proposal, name what it changes downstream, and **re-open any earlier
-   decision it invalidates** — a good counter-proposal often dissolves a problem
-   you were still working around. Note the difference from「任せる」: a
-   counter-proposal is a *better answer* and you take it; 「任せる」is a
-   *non-answer* and you drill into it.
+2. **Every question ships with numbered options.** Option 1 is your
+   recommendation with a one-line reason;「はい」accepts option 1. Always allow a
+   custom answer, and offer alternatives only when they are meaningful. For an
+   unknown *fact*, recommend how to verify it or how to proceed without it —
+   never invent a plausible value and recommend that.
+
+3. **Prerequisites before dependents.** Settle the decisions that constrain many
+   others first — goal, scope, hard constraints — then work depth-first inside a
+   branch. The coverage list below is a relevance checklist, not a fixed order.
+
+4. **Investigate before asking a factual question.** Read the relevant code,
+   config and tests first. Keep observed facts, user-reported facts, assumptions
+   and decisions distinct. If sources conflict or are unavailable, say so, and
+   ask only when resolving it would change the next stage. **Agreement is not
+   verification.**
+
+5. **Uncertainty, missing facts and delegation are three different answers.**
+   - 未定 — not chosen yet → recommend a default.
+   - 知らない — no basis to answer → investigate, or record it as unverified.
+   - 任せる — delegating → decide within the delegated scope and record the
+     choice for the final confirmation; do not seek approval for each one.
+
+   Delegation does not establish unknown facts and does not expand your
+   authority to execute.
+
+6. **Respect the user's intent and preferences, with or without a reason.** Do
+   not defend a recommendation merely because it was yours. If a counter-proposal
+   conflicts with evidence or an agreed constraint, state the specific conflict
+   and offer a workable alternative. After any change, revisit the decisions it
+   invalidates — and only those.
+
+7. **Answer clarification requests before resuming the interview.**
+
+8. **Handle interruptions as interruptions.** If the user revises requirements,
+   update the affected decisions. If they pause, cancel, or switch tasks,
+   suspend the interview and label any checkpoint unconfirmed — never force a
+   final confirmation on someone who asked to stop. Resume only when asked.
+
+9. **Answer in the user's language.**
+
+10. **Stop when the next stage has enough to proceed.** Classify each remaining
+    consequential unknown as a blocker or as an explicit assumption with a
+    validation step; drop the inconsequential ones. After five questions,
+    summarise decisions and remaining blockers briefly, then spend the next
+    single question offering: continue / delegate the rest / pause.
+
+11. **Nothing is drafted or changed before confirmation.** No implementation, no
+    edits to project files, no external actions. Read-only investigation,
+    decision summaries, and the proposed spec — including its structure — are
+    allowed.
 
 ## Procedure
 
 ### Phase 0 — Orient (silent)
 
 Restate the request to yourself in two or three lines, read the code it touches,
-and list the unknowns that actually change the outcome. Discard the rest.
+and list the unknowns that actually change the outcome.
 
-### Phase 1 — Grill
+### Phase 1 — Interview
 
-Loop, one question at a time, using this shape:
+One question at a time, in this shape:
 
 ```
 Q3. 送信後の画面はどうする？
 
-   推奨: 同じページ内でフォームを成功メッセージに差し替える
-        — 静的サイトなので遷移先ページを増やさずに済む
-   他の案: (a) サンクスページに遷移  (b) トーストだけ出してフォームは残す
+  1. 同じページ内でフォームを成功メッセージに差し替える ← 推奨
+     静的サイトなので遷移先ページを増やさずに済む
+  2. サンクスページに遷移する
+  3. トーストだけ出してフォームは残す
 ```
 
-Cover, in roughly this order, skipping anything already settled:
+Coverage checklist — skip anything already settled:
 
 - **目的** — what is this for, who uses it, what does success look like
 - **スコープ** — what is explicitly in, and what is explicitly *out*
-- **制約** — existing stack, conventions, files that must not change
+- **制約** — stack, conventions, files that must not change, compatibility
 - **振る舞い** — data/state shape, edge cases, error and empty states
 - **見た目** — layout, copy, responsive behaviour (if there is UI)
 - **非機能** — performance, accessibility, browser support, privacy/security
-- **完了条件** — how we will verify it works
-- **展開** — migration, rollout, what happens to existing data or URLs
+- **検証** — how we will know it works
+- **展開** — migration, rollout, existing data and URLs
 
 ### Phase 2 — Freeze
 
-When the branches are exhausted, output the spec and ask for a single explicit
-confirmation. Do not skip this — it is the artifact the whole exercise exists to
-produce.
-
 ```
+## 根拠と前提
+- 確認済みの事実（出典）:
+- ユーザー申告・未確認:
+
 ## 決定事項
 - ...
 
 ## スコープ外
 - ...
 
-## 未決（実装に影響しないため保留）
-- ...
+## 仮定と確認事項
+- 採用する仮定:
+- 確認方法・担当・時点:
+- 成立しなかった場合に見直す決定:
+
+## 未解決のブロッカー
+- ...（残っている間、この仕様は確定版ではない）
 
 ## 受け入れ条件
 - [ ] ...
@@ -99,20 +133,22 @@ produce.
 1. ...
 ```
 
-Then: 「この内容で進めていい？」
+Then ask exactly one confirmation, naming the artifact **and** what happens next:
+
+- Spec only —「この内容を確定版として、要件整理を終了してよいですか？」
+- Implementation already requested —「この仕様を確定し、記載した実装に着手してよいですか？」
+
+If the user asks for changes, revise the affected decisions and re-present the
+updated spec for confirmation.
 
 ### Phase 3 — Hand off
 
-Only after the user confirms, implement — or, if the user prefers, stop here and
-let them start a fresh session with the frozen spec as the prompt.
+Execute only what the confirmation covered. If the user prefers a fresh session,
+write a self-contained handoff: decisions, assumptions, acceptance criteria, and
+references to the sources you relied on.
 
-## Anti-patterns
+## Scale to the task
 
-- Asking five questions at once.
-- Asking open questions with no recommendation ("どうしますか？").
-- Asking about something a `grep` would have answered.
-- Grilling a trivial task. A one-line copy change does not need an interview —
-  say so and just do it.
-- Drifting into implementation mid-grill.
-- Ending without a written, confirmed spec.
-- Defending a recommendation after the user has given a reason it is wrong.
+A trivial or already-settled task does not need an interview — say so and go
+straight to a compact spec. Skipping the *interview* is not the same as skipping
+the *confirmation*: the user still sees what you are about to do before you do it.
